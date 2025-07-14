@@ -14,7 +14,7 @@ const createUser = async (payload: Partial<IUser>) => {
     throw new AppError(httpStatus.BAD_REQUEST, "Email Already Exist");
   }
 
-  const hashedPassword = await bcrypt.hash(password as string, config.SALT);
+  const hashedPassword = await bcrypt.hash(password as string, Number(config.SALT));
 
   const authProvider: IAuthProvider = {
     provider: "credentials",
