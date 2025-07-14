@@ -23,6 +23,7 @@ export const checkAuth =
         throw new AppError(403, "You are not permitted to access the route");
       }
 
+      req.user = verifiedToken;
       next();
     } catch (error) {
       console.log("jwt erro", error);
