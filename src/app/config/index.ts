@@ -9,6 +9,8 @@ interface EnvConfig {
   JWT_SECRET: string;
   JWT_EXPIRES: string;
   SALT: string;
+  SUPER_ADMIN_EMAIL: string;
+  SUPER_ADMIN_PASSWORD: string;
 }
 
 const loadEnvironments = (): EnvConfig => {
@@ -19,11 +21,13 @@ const loadEnvironments = (): EnvConfig => {
     "JWT_SECRET",
     "JWT_EXPIRES",
     "SALT",
+    "SUPER_ADMIN_EMAIL",
+    "SUPER_ADMIN_PASSWORD",
   ];
 
   requireEnvVariables.forEach((key) => {
     if (!process.env[key]) {
-      throw new Error(`Missing require environment variables: ${key}`);
+      throw new Error(`Missing required environment variables: ${key}`);
     }
   });
 
@@ -34,6 +38,8 @@ const loadEnvironments = (): EnvConfig => {
     JWT_SECRET: process.env.JWT_SECRET as string,
     JWT_EXPIRES: process.env.JWT_EXPIRES as string,
     SALT: process.env.SALT as string,
+    SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
+    SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
   };
 };
 
