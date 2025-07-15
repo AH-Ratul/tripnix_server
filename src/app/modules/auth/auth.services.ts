@@ -1,11 +1,12 @@
 import AppError from "../../errorHelpers/AppError";
-import { IUser } from "../user/user.interface";
+import { IsActive, IUser } from "../user/user.interface";
 import { User } from "../user/user.model";
 import httpStatus from "http-status-codes";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { generateToken } from "../../utils/jwt";
+import { createUserTokens } from "../../utils/userTokens";
+import { generateToken, verifyToken } from "../../utils/jwt";
 import { config } from "../../config";
+import { JwtPayload } from "jsonwebtoken";
 
 const credentialsLogin = async (payload: Partial<IUser>) => {
   const { email, password } = payload;
@@ -25,8 +26,45 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
     throw new AppError(httpStatus.BAD_REQUEST, "Incorrect Password");
   }
 
+  const usertokens = createUserTokens(isUserExist);
+
+  const { password: pass, ...rest } = isUserExist.toObject();
+
+  return {
+    accessToken: usertokens.accessToken,
+    refreshToken: usertokens.refreshToken,
+    user: rest,
+  };
+};
+
+const getNewAccessToken = async (refreshToken: string) => {
+  const verifyRefreshToken = verifyToken(
+    refreshToken,
+    config.JWT_REFRESH_SECRET
+  ) as JwtPayload;
+
+  const isUserExist = await User.findOne({ email: verifyRefreshToken.email });
+
+  if (!isUserExist) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User does not Exist");
+  }
+
+  if (
+    isUserExist.isActive === IsActive.BLOCKED ||
+    isUserExist.isActive === IsActive.INACTIVE
+  ) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `User is ${isUserExist.isActive}`
+    );
+  }
+
+  if (isUserExist.isDeleted === true) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User is Deleted");
+  }
+
   const jwtPaylaod = {
-    useId: isUserExist._id,
+    userId: isUserExist._id,
     email: isUserExist.email,
     role: isUserExist.role,
   };
@@ -44,4 +82,5 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
 
 export const AuthServices = {
   credentialsLogin,
+  getNewAccessToken,
 };
