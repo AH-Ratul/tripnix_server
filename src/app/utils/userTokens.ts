@@ -8,7 +8,7 @@ import AppError from "../errorHelpers/AppError";
 
 export const createUserTokens = (user: Partial<IUser>) => {
   const jwtPaylaod = {
-    useId: user._id,
+    userId: user._id,
     email: user.email,
     role: user.role,
   };
