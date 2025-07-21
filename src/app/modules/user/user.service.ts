@@ -13,7 +13,7 @@ const createUser = async (payload: Partial<IUser>) => {
   const isUserExists = await User.findOne({ email });
 
   if (isUserExists) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Email Already Exist");
+    throw new AppError(httpStatus.BAD_REQUEST, "Email Already Exists");
   }
 
   // hash the password before create
