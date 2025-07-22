@@ -1,0 +1,27 @@
+import { Router } from "express";
+import { checkAuth } from "../../middlewares/checkAuth";
+import { Role } from "../user/user.interface";
+import { validateRequest } from "../../middlewares/validateRequest";
+import {
+  createTourTypeZodSchema,
+  createTourZodSchema,
+} from "./tour.validation";
+import { TourController } from "./tour.controller";
+
+export const tourRouter = Router();
+
+//----------- tour type -----------
+tourRouter.post(
+  "/create-tour-type",
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  validateRequest(createTourTypeZodSchema),
+  TourController.createTourType
+);
+
+//----------- tour ----------------
+tourRouter.post(
+  "/create",
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  validateRequest(createTourZodSchema),
+  TourController.createTour
+);
