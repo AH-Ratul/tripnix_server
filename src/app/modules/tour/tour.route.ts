@@ -12,6 +12,8 @@ import { TourController } from "./tour.controller";
 export const tourRouter = Router();
 
 //----------- tour type -----------
+tourRouter.get("/tour-types", TourController.getAllTourType);
+
 tourRouter.post(
   "/create-tour-type",
   checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
@@ -19,29 +21,27 @@ tourRouter.post(
   TourController.createTourType
 );
 
-tourRouter.get("/all-Tour-Type", TourController.getAllTourType);
-
 tourRouter.patch(
-  "/:id",
+  "/tour-types/:id",
   checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
   TourController.updateTourType
 );
 
 tourRouter.delete(
-  "/:id",
+  "/tour-types/:id",
   checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
   TourController.deleteTourType
 );
 
 //----------- tour ----------------
+tourRouter.get("/", TourController.getAllTours);
+
 tourRouter.post(
   "/create",
   checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
   validateRequest(createTourZodSchema),
   TourController.createTour
 );
-
-tourRouter.get("/", TourController.getAllTours);
 
 tourRouter.patch(
   "/:id",
