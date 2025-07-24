@@ -1,7 +1,8 @@
 import { TGenericErrorResponse } from "../../interfaces/error.types";
 
 export const handleDuplicateError = (err: any): TGenericErrorResponse => {
-  const value = err.errorResponse.errmsg.match(/"([^"]*)"/)[1];
+  const match = err?.errorResponse?.errmsg?.match(/"([^"]*)"/);
+  const value = match?.[1] || "Duplicate value";
 
   return {
     statusCode: 400,
