@@ -19,6 +19,20 @@ tourRouter.post(
   TourController.createTourType
 );
 
+tourRouter.get("/all-Tour-Type", TourController.getAllTourType);
+
+tourRouter.patch(
+  "/:id",
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  TourController.updateTourType
+);
+
+tourRouter.delete(
+  "/:id",
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  TourController.deleteTourType
+);
+
 //----------- tour ----------------
 tourRouter.post(
   "/create",
@@ -34,4 +48,10 @@ tourRouter.patch(
   checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
   validateRequest(updateTourZodSchema),
   TourController.updateTour
+);
+
+tourRouter.delete(
+  "/:id",
+  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  TourController.deleteTour
 );
