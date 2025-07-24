@@ -29,6 +29,18 @@ const getAllDivision = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+const getSingleDivision = catchAsync(async (req: Request, res: Response) => {
+  const slug = req.params.slug;
+  const result = await DivisionService.getSingleDivision(slug);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Division Retrieved",
+    data: result.data,
+  });
+});
+
 const updateDivision = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params;
   const result = await DivisionService.updateDivision(id, req.body);
@@ -56,6 +68,7 @@ const deleteDivision = catchAsync(async (req: Request, res: Response) => {
 export const DivisionController = {
   createDivision,
   getAllDivision,
+  getSingleDivision,
   updateDivision,
   deleteDivision,
 };
