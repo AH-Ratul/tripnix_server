@@ -16,7 +16,10 @@ divisionRouter.post(
   validateRequest(createDivisionSchema),
   DivisionController.createDivision
 );
+
 divisionRouter.get("/", DivisionController.getAllDivision);
+divisionRouter.get("/:slug", DivisionController.getSingleDivision);
+
 divisionRouter.patch(
   "/:id",
   checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
