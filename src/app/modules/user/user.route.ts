@@ -20,7 +20,7 @@ userRouter.get(
 );
 
 userRouter.get(
-  "/:",
+  "/:id",
   checkAuth(...Object.values(Role)),
   userController.getSingleUser
 );
