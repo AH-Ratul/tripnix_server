@@ -1,0 +1,18 @@
+import { Types } from "mongoose";
+
+export enum PAYMENT_STATUS {
+  PAID = "PAID",
+  UNPAID = "UNPAID",
+  CANCELLED = "CANCELLED",
+  FAILED = "FAILED",
+  REFUNDED = "REFUNDED",
+}
+
+export interface IPayment {
+  booking: Types.ObjectId;
+  transactionID: string;
+  amount: number;
+  paymentGatewayData?: any;
+  invoiceURL?: string;
+  status: PAYMENT_STATUS;
+}
