@@ -9,7 +9,7 @@ const paymentSchema = new Schema<IPayment>(
       required: true,
       unique: true,
     },
-    transactionID: {
+    transactionId: {
       type: String,
       required: true,
       unique: true,
