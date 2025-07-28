@@ -11,9 +11,9 @@ const sslPaymentInit = async (payload: ISSLCommerz) => {
       total_amount: payload.amount,
       currency: "BDT",
       tran_id: payload.transactionId,
-      success_url: config.SSL_SUCCESS_BACKEND_URL,
-      fail_url: config.SSL_FAIL_BACKEND_URL,
-      cancel_url: config.SSL_CANCEL_BACKEND_URL,
+      success_url: `${config.SSL_SUCCESS_BACKEND_URL}?transactionId=${payload.transactionId}&status=success`,
+      fail_url: `${config.SSL_FAIL_BACKEND_URL}?transactionId=${payload.transactionId}&status=fail`,
+      cancel_url: `${config.SSL_CANCEL_BACKEND_URL}?transactionId=${payload.transactionId}&status=cancel`,
       //ipn_url: "http://localhost:3030/ipn",
       shipping_method: "Courier",
       product_name: "Computer.",
@@ -51,6 +51,6 @@ const sslPaymentInit = async (payload: ISSLCommerz) => {
   }
 };
 
-export const SSLServie = {
+export const SSLService = {
   sslPaymentInit,
 };
