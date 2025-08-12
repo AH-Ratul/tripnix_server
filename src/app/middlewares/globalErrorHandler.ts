@@ -6,13 +6,25 @@ import { handleDuplicateError } from "../errorHelpers/helpers/handleDuplicateErr
 import { handleValidationError } from "../errorHelpers/helpers/handleValidationError";
 import { handleZodError } from "../errorHelpers/helpers/handleZodError";
 import { TErrorSources } from "../interfaces/error.types";
+import { deleteImageFromCloudinary } from "../config/cloudinary.config";
 
-export const globalErrorHandler: ErrorRequestHandler = (
+export const globalErrorHandler: ErrorRequestHandler = async (
   err: any,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  if (req.file) {
+    await deleteImageFromCloudinary(req.file.path);
+  }
+
+  if (req.files && req.files.length) {
+    const imageUrl = (req.files as Express.Multer.File[]).map(
+      (file) => file.path
+    );
+    await Promise.all(imageUrl.map((url) => deleteImageFromCloudinary(url)));
+  }
+
   let errorSources: TErrorSources[] = [];
   let statusCode = err.statusCode || 500;
   let message = err.message || "Something went wrong!!";
