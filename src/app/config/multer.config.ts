@@ -19,9 +19,7 @@ const storage = new CloudinaryStorage({
         "-" +
         Date.now() +
         "-" +
-        fileName +
-        "." +
-        extension;
+        fileName;
 
       return uniqueName;
     },
