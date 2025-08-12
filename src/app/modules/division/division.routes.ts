@@ -7,12 +7,14 @@ import {
   updateDivisionSchema,
 } from "./division.validation";
 import { DivisionController } from "./division.controller";
+import { multerUpload } from "../../config/multer.config";
 
 export const divisionRouter = Router();
 
 divisionRouter.post(
   "/create",
   checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  multerUpload.single("file"),
   validateRequest(createDivisionSchema),
   DivisionController.createDivision
 );
