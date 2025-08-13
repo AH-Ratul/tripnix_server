@@ -29,6 +29,8 @@ authRouter.post(
   AuthController.setPassword
 );
 
+authRouter.post("/forget-password", AuthController.forgetPassword);
+
 authRouter.get("/google", (req: Request, res: Response, next: NextFunction) => {
   const redirect = req.query.redirect || "/";
   passport.authenticate("google", {
