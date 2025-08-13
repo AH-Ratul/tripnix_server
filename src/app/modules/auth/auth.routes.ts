@@ -4,6 +4,7 @@ import { checkAuth } from "../../middlewares/checkAuth";
 import { Role } from "../user/user.interface";
 import passport from "passport";
 import { User } from "../user/user.model";
+import { config } from "../../config";
 
 export const authRouter = Router();
 
@@ -16,6 +17,20 @@ authRouter.post(
   AuthController.resetPassword
 );
 
+authRouter.post(
+  "/change-password",
+  checkAuth(...Object.values(Role)),
+  AuthController.changePassword
+);
+
+authRouter.post(
+  "/set-password",
+  checkAuth(...Object.values(Role)),
+  AuthController.setPassword
+);
+
+authRouter.post("/forget-password", AuthController.forgetPassword);
+
 authRouter.get("/google", (req: Request, res: Response, next: NextFunction) => {
   const redirect = req.query.redirect || "/";
   passport.authenticate("google", {
@@ -26,7 +41,9 @@ authRouter.get("/google", (req: Request, res: Response, next: NextFunction) => {
 
 authRouter.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
+  passport.authenticate("google", {
+    failureRedirect: `${config.CLIENT_URL}/login?error=There is some issue with your account. Please contact our support team.`,
+  }),
   AuthController.googleCallbackController
 );
 
