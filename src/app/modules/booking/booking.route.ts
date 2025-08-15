@@ -12,7 +12,7 @@ export const bookingRouter = Router();
 
 bookingRouter.post(
   "/",
-  checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+  checkAuth(...Object.values(Role)),
   validateRequest(createBookingZodSchema),
   BookingController.createBooking
 );
