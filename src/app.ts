@@ -23,7 +23,12 @@ app.use(passport.session());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+  cors({
+    origin: config.CLIENT_URL,
+    credentials: true,
+  })
+);
 
 app.use("/api/v1", appRouter);
 
