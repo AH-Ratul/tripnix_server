@@ -22,6 +22,7 @@ interface EnvConfig {
   SSL_STORE_PASS: string;
   SSL_PAYMENT_API: string;
   SSL_VALIDATIN_API: string;
+  SSL_IPN_URL: string;
   SSL_SUCCESS_FRONTEND_URL: string;
   SSL_FAIL_FRONTEND_URL: string;
   SSL_CANCEL_FRONTEND_URL: string;
@@ -65,6 +66,7 @@ const loadEnvironments = (): EnvConfig => {
     "SSL_STORE_PASS",
     "SSL_PAYMENT_API",
     "SSL_VALIDATIN_API",
+    "SSL_IPN_URL",
     "SSL_SUCCESS_FRONTEND_URL",
     "SSL_FAIL_FRONTEND_URL",
     "SSL_CANCEL_FRONTEND_URL",
@@ -111,6 +113,7 @@ const loadEnvironments = (): EnvConfig => {
     SSL_STORE_PASS: process.env.SSL_STORE_PASS as string,
     SSL_PAYMENT_API: process.env.SSL_PAYMENT_API as string,
     SSL_VALIDATIN_API: process.env.SSL_VALIDATIN_API as string,
+    SSL_IPN_URL: process.env.SSL_IPN_URL as string,
     SSL_SUCCESS_FRONTEND_URL: process.env.SSL_SUCCESS_FRONTEND_URL as string,
     SSL_FAIL_FRONTEND_URL: process.env.SSL_FAIL_FRONTEND_URL as string,
     SSL_CANCEL_FRONTEND_URL: process.env.SSL_CANCEL_FRONTEND_URL as string,
