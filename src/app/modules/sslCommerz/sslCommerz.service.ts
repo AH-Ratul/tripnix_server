@@ -17,8 +17,8 @@ const sslPaymentInit = async (payload: ISSLCommerz) => {
       cancel_url: `${config.SSL_CANCEL_BACKEND_URL}?transactionId=${payload.transactionId}&status=cancel`,
       ipn_url: config.SSL_IPN_URL,
       shipping_method: "Courier",
-      product_name: "Computer.",
-      product_category: "Electronic",
+      product_name: "Tour",
+      product_category: "Management",
       product_profile: "general",
       cus_name: payload.name,
       cus_email: payload.email,
@@ -56,7 +56,7 @@ const validatePayment = async (payload: any) => {
   try {
     const response = await axios({
       method: "GET",
-      url: `${config.SSL_VALIDATION_API}?val_id=${payload.val_id}&store_id=${config.SSL_STORE_ID}&store_pass=${config.SSL_STORE_PASS}`,
+      url: `${config.SSL_VALIDATION_API}?val_id=${payload.val_id}&store_id=${config.SSL_STORE_ID}&store_passwd=${config.SSL_STORE_PASS}`,
     });
 
     console.log("sslcommerz validation response", response.data);
