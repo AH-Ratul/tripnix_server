@@ -1,5 +1,6 @@
 import { config } from "../../config";
 import AppError from "../../errorHelpers/AppError";
+import { Payment } from "../payment/payment.model";
 import { ISSLCommerz } from "./sslCommerz.interface";
 import axios from "axios";
 
@@ -14,7 +15,7 @@ const sslPaymentInit = async (payload: ISSLCommerz) => {
       success_url: `${config.SSL_SUCCESS_BACKEND_URL}?transactionId=${payload.transactionId}&status=success`,
       fail_url: `${config.SSL_FAIL_BACKEND_URL}?transactionId=${payload.transactionId}&status=fail`,
       cancel_url: `${config.SSL_CANCEL_BACKEND_URL}?transactionId=${payload.transactionId}&status=cancel`,
-      //ipn_url: "http://localhost:3030/ipn",
+      ipn_url: config.SSL_IPN_URL,
       shipping_method: "Courier",
       product_name: "Computer.",
       product_category: "Electronic",
@@ -51,6 +52,27 @@ const sslPaymentInit = async (payload: ISSLCommerz) => {
   }
 };
 
+const validatePayment = async (payload: any) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `${config.SSL_VALIDATIN_API}?val_id=${payload.val_id}&store_id=${config.SSL_STORE_ID}&store_pass=${config.SSL_STORE_PASS}`,
+    });
+
+    console.log("sslcommerz validation response", response.data);
+
+    await Payment.updateOne(
+      { transactionId: payload.tran_id },
+      { paymentGatewayData: response.data },
+      { runValidators: true }
+    );
+  } catch (error: any) {
+    console.log(error);
+    throw new AppError(400, `Payment validation error: ${error.message}`);
+  }
+};
+
 export const SSLService = {
   sslPaymentInit,
+  validatePayment,
 };
