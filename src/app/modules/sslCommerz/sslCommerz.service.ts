@@ -55,8 +55,8 @@ const sslPaymentInit = async (payload: ISSLCommerz) => {
 const validatePayment = async (payload: any) => {
   try {
     const response = await axios({
-      method: "POST",
-      url: `${config.SSL_VALIDATIN_API}?val_id=${payload.val_id}&store_id=${config.SSL_STORE_ID}&store_pass=${config.SSL_STORE_PASS}`,
+      method: "GET",
+      url: `${config.SSL_VALIDATION_API}?val_id=${payload.val_id}&store_id=${config.SSL_STORE_ID}&store_pass=${config.SSL_STORE_PASS}`,
     });
 
     console.log("sslcommerz validation response", response.data);
