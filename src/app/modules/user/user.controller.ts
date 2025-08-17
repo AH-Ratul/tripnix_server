@@ -63,7 +63,7 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: "User Retrieved Successfully",
-    data: result,
+    data: result.data,
   });
 });
 
@@ -76,7 +76,7 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: "Your Profile Retrieved Successfully",
-    data: result,
+    data: result.data,
   });
 });
 
