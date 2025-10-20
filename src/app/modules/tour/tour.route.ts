@@ -36,6 +36,7 @@ tourRouter.delete(
 
 //----------- tour ----------------
 tourRouter.get("/", TourController.getAllTours);
+tourRouter.get("/:id", TourController.getSingleTour);
 
 tourRouter.post(
   "/create",
