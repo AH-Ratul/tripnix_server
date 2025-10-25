@@ -213,10 +213,19 @@ const getInvoiceURL = async (paymentId: string) => {
   return payment.invoiceURL;
 };
 
+const getPayment = async (id: string) => {
+  const payment = await Payment.findOne({
+    transactionId: id,
+  });
+
+  return payment;
+};
+
 export const PaymentService = {
   initPayment,
   successPayment,
   failPayment,
   cancelPayment,
   getInvoiceURL,
+  getPayment
 };
