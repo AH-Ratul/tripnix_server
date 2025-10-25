@@ -5,6 +5,12 @@ import { Role } from "../user/user.interface";
 
 export const paymentRouter = Router();
 
+paymentRouter.get(
+  "/:id",
+  checkAuth(...Object.values(Role)),
+  PaymentController.getPayment
+);
+
 paymentRouter.post("/init-payment/:bookingId", PaymentController.initPayment);
 paymentRouter.post("/success", PaymentController.successPayment);
 paymentRouter.post("/fail", PaymentController.failPayment);
