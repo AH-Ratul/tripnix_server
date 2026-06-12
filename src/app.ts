@@ -16,7 +16,7 @@ app.use(
     secret: config.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-  })
+  }),
 );
 app.use(passport.initialize());
 app.use(passport.session());
@@ -26,9 +26,10 @@ app.set("trust proxy", 1);
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: config.CLIENT_URL,
+    origin:
+      config.NODE_ENV === "production" ? config.CLIENT_URL : config.LOCAL_URL,
     credentials: true,
-  })
+  }),
 );
 
 app.use("/api/v1", appRouter);
